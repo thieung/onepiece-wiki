@@ -1,0 +1,70 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+  <!-- Hero -->
+  <header class="hero" aria-label="One Piece Timeline">
+    <h1 class="hero-logo">ONE PIECE</h1>
+    <p class="hero-subtitle" data-i18n="hero-subtitle">SAGA &amp; ARC TIMELINE — Tóm tắt hành trình</p>
+    <div class="hero-meta" aria-label="Thống kê">
+      <div class="hero-stat">☠ 11 SAGAS</div>
+      <div class="hero-stat">⚔ 34+ ARCS</div>
+      <div class="hero-stat">📖 1100+ CHAPTERS</div>
+    </div>
+
+    <div class="hero-scroll-hint" aria-hidden="true">
+      <span>SCROLL</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </header>
+
+  <main>
+    <!-- View 1: Timeline -->
+    <div id="view-timeline">
+      <div class="timeline-wrapper" id="timeline-container" aria-label="One Piece timeline">
+        <!-- Populated by render.js -->
+      </div>
+      <p id="no-results" role="status" data-i18n="no-results">Không tìm thấy arc nào 🏴‍☠️</p>
+    </div>
+
+    <!-- View 2: World Map -->
+    <div id="view-map" hidden aria-label="One Piece World Map Explorer">
+      <div id="map-canvas-wrapper" aria-hidden="true"></div>
+      <div id="map-tooltip" role="tooltip"></div>
+      <p class="map-hint" data-i18n="map-hint">Click marker để xem arc · Drag để xoay</p>
+
+      <div class="map-controls">
+        <button class="map-btn" id="map-toggle-rotate">⏸ Pause</button>
+      </div>
+
+      <div class="map-legend" aria-label="Chú thích bản đồ">
+        <div class="legend-item">
+          <div class="legend-line" style="background: linear-gradient(to right, #1565C0, #D4A017)"></div>
+          <span data-i18n="legend-journey">Hành trình Straw Hat</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-line" style="background:#D4A017;opacity:.8"></div>
+          <span data-i18n="legend-grandline">Grand Line</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-line" style="background:#C0392B;opacity:.8"></div>
+          <span data-i18n="legend-redline">Red Line</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#FFD700;box-shadow:0 0 6px #FFD700;width:14px;height:14px"></div>
+          <span data-i18n="legend-start">Điểm xuất phát (Foosha Village)</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#D4A017"></div>
+          <span data-i18n="legend-location">Địa điểm arc</span>
+        </div>
+      </div>
+
+      <aside id="map-info-panel" aria-label="Thông tin địa điểm">
+        <button id="map-panel-close" aria-label="Đóng">✕</button>
+        <!-- Populated by world-map.js -->
+      </aside>
+    </div>
+  </main>
+</Layout>

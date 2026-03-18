@@ -1,0 +1,94 @@
+/**
+ * animations.css - Scroll-triggered reveal animations
+ * Uses IntersectionObserver class toggling for cross-browser support
+ */
+
+/* === Reveal on scroll === */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delay for arc cards within a saga */
+.arc-item:nth-child(1) .reveal { transition-delay: 0ms; }
+.arc-item:nth-child(2) .reveal { transition-delay: 60ms; }
+.arc-item:nth-child(3) .reveal { transition-delay: 120ms; }
+.arc-item:nth-child(4) .reveal { transition-delay: 180ms; }
+.arc-item:nth-child(5) .reveal { transition-delay: 240ms; }
+.arc-item:nth-child(6) .reveal { transition-delay: 300ms; }
+
+/* === Saga header reveal === */
+.saga-header .reveal {
+  transform: translateY(0) scale(0.92);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.saga-header .reveal.is-visible {
+  transform: scale(1);
+}
+
+/* === Dot pulse on reveal === */
+.arc-item.is-visible::before {
+  animation: dot-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes dot-pop {
+  from { transform: translateX(-50%) scale(0); }
+  to   { transform: translateX(-50%) scale(1); }
+}
+
+/* Mobile dot */
+@media (max-width: 680px) {
+  .arc-item.is-visible::before {
+    animation: dot-pop-mobile 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+  @keyframes dot-pop-mobile {
+    from { transform: translateX(-50%) scale(0); }
+    to   { transform: translateX(-50%) scale(1); }
+  }
+}
+
+/* === Connector line draw === */
+.arc-connector {
+  width: 0;
+  transition: width 0.3s ease 0.2s;
+}
+
+.arc-item.is-visible .arc-connector {
+  width: var(--space-xl);
+}
+
+/* === Filter/search transition === */
+.saga-section {
+  transition: opacity var(--transition-med);
+}
+
+.saga-section.is-hidden {
+  display: none;
+}
+
+/* === Reduced motion === */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .arc-card {
+    transition: none !important;
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .arc-connector {
+    transition: none !important;
+    animation: none !important;
+    width: var(--space-xl) !important;
+  }
+}

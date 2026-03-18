@@ -1,0 +1,203 @@
+/**
+ * base.css - Reset, typography, global layout
+ * Theme: treasure map parchment + ocean hero
+ */
+
+/* Fonts loaded via <link> in index.html */
+
+/* === Reset === */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  scroll-padding-top: 72px;
+}
+
+/* === Body: parchment paper === */
+body {
+  background-color: var(--bg-parchment);
+  /* Subtle paper grain using CSS noise */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  color: var(--op-black);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* === Hero: deep ocean === */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-xl) var(--space-md);
+  /* Ocean depth gradient */
+  background: linear-gradient(
+    175deg,
+    #071629 0%,
+    #0B2545 35%,
+    #0D3B6E 65%,
+    #0A4072 100%
+  );
+  overflow: hidden;
+}
+
+/* Wave + star shimmer overlay */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(93,173,226,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(244,196,48,0.06) 0%, transparent 50%),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 60px,
+      rgba(255,255,255,0.015) 60px,
+      rgba(255,255,255,0.015) 61px
+    );
+  pointer-events: none;
+}
+
+/* Subtle wave at bottom of hero */
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: var(--bg-parchment);
+  clip-path: ellipse(55% 100% at 50% 100%);
+}
+
+.hero-logo {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 11vw, 8rem);
+  letter-spacing: 0.06em;
+  line-height: 1;
+  color: var(--op-yellow);
+  text-shadow:
+    0 0 40px rgba(244,196,48,0.3),
+    3px 3px 0 var(--op-red),
+    6px 6px 0 rgba(0,0,0,0.4);
+  margin-bottom: var(--space-md);
+  position: relative;
+  z-index: 1;
+}
+
+.hero-subtitle {
+  font-family: var(--font-display);
+  font-size: clamp(0.85rem, 2.5vw, 1.3rem);
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: var(--space-xl);
+  position: relative;
+  z-index: 1;
+}
+
+.hero-meta {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Stat chips with pirate icon feel */
+.hero-stat {
+  background: rgba(255,255,255,0.07);
+  border: 1.5px solid rgba(244,196,48,0.4);
+  padding: var(--space-sm) var(--space-lg);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  color: var(--op-yellow);
+  border-radius: 4px;
+  backdrop-filter: blur(4px);
+  transform: rotate(-0.8deg);
+}
+.hero-stat:nth-child(2) { transform: rotate(0.5deg); }
+.hero-stat:nth-child(3) { transform: rotate(-0.3deg); }
+
+/* Straw Hat crew SVG illustration */
+.hero-crew {
+  width: 100%;
+  max-width: 960px;
+  margin: var(--space-lg) auto 0;
+  position: relative;
+  z-index: 1;
+}
+
+.crew-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 8px 24px rgba(0,0,0,0.5));
+}
+
+.hero-scroll-hint {
+  position: absolute;
+  bottom: var(--space-2xl);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  color: rgba(255,255,255,0.45);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  animation: bounce 2.5s infinite;
+  z-index: 1;
+}
+
+.scroll-arrow {
+  width: 20px;
+  height: 20px;
+  border-right: 2px solid rgba(255,255,255,0.4);
+  border-bottom: 2px solid rgba(255,255,255,0.4);
+  transform: rotate(45deg);
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.45; }
+  50% { transform: translateX(-50%) translateY(8px); opacity: 0.7; }
+}
+
+/* === Links === */
+a { color: inherit; text-decoration: none; }
+
+/* === Scrollbar (parchment themed) === */
+::-webkit-scrollbar { width: 7px; }
+::-webkit-scrollbar-track { background: var(--bg-parchment-dark); }
+::-webkit-scrollbar-thumb {
+  background: var(--op-sand);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--op-brown); }
+
+/* === Selection === */
+::selection {
+  background: var(--op-yellow);
+  color: var(--op-black);
+}
+
+/* === Utility === */
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}

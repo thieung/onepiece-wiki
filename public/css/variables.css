@@ -1,0 +1,71 @@
+/**
+ * variables.css - Design tokens for One Piece timeline
+ * Theme: treasure map parchment + ocean + bounty poster aesthetic
+ */
+
+:root {
+  /* === Brand Colors === */
+  --op-red: #C0392B;
+  --op-red-dark: #922B21;
+  --op-yellow: #F4C430;     /* parchment gold */
+  --op-gold: #D4A017;       /* aged gold */
+  --op-black: #1C1208;      /* ink black (warm) */
+  --op-white: #FFF9EE;      /* cream white */
+  --op-navy: #0D2B55;       /* deep ocean */
+  --op-ocean: #1A5276;      /* mid ocean */
+  --op-sky: #5DADE2;        /* sky blue */
+  --op-sand: #C9A84C;       /* sandy beach */
+  --op-brown: #7D4E1C;      /* ship wood */
+  --op-sepia: #8B6914;      /* aged paper border */
+
+  /* === Parchment Background System === */
+  --bg-parchment: #F2E8D0;    /* main page background */
+  --bg-parchment-dark: #E8D9B5; /* slightly darker areas */
+  --bg-card: #FBF3E2;         /* bounty poster card */
+  --bg-card-aged: #F5E6C8;    /* aged paper variant */
+  --bg-hero: #0B2545;         /* deep ocean hero */
+  --bg-nav: #0D2B55;          /* nav dark ocean */
+
+  /* === Typography === */
+  --font-display: 'Bangers', 'Impact', cursive;
+  --font-body: 'Noto Sans', sans-serif;
+
+  /* === Spacing === */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+  --space-2xl: 64px;
+
+  /* === Bounty Poster Border System === */
+  --border-poster: 2px solid var(--op-sepia);
+  --border-poster-thick: 3px solid var(--op-sepia);
+  --shadow-poster: 3px 3px 0 rgba(139,105,20,0.35), 0 4px 16px rgba(0,0,0,0.12);
+  --shadow-poster-hover: 5px 5px 0 rgba(139,105,20,0.4), 0 8px 24px rgba(0,0,0,0.18);
+
+  /* === Timeline === */
+  --timeline-line-width: 3px;
+  --timeline-dot-size: 14px;
+
+  /* === Transitions === */
+  --transition-fast: 0.15s ease;
+  --transition-med: 0.3s ease;
+
+  /* === Z-index === */
+  --z-nav: 100;
+  --z-overlay: 200;
+
+  /* === Saga fixed colors (pill + badge) === */
+  --saga-color-east-blue:    #1565C0;
+  --saga-color-arabasta:     #D35400;
+  --saga-color-sky-island:   #2E86C1;
+  --saga-color-water-7:      #1A5276;
+  --saga-color-thriller-bark:#6C3483;
+  --saga-color-summit-war:   #C0392B;
+  --saga-color-fishman:      #117A65;
+  --saga-color-dressrosa:    #A93226;
+  --saga-color-whole-cake:   #CB4335;
+  --saga-color-wano:         #BA4A00;
+  --saga-color-final:        #B7950B;
+}

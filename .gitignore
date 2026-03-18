@@ -1,0 +1,4 @@
+node_modules/
+dist/
+.vercel/
+src/env.d.ts

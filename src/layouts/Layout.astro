@@ -1,0 +1,123 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'ONE PIECE — Timeline Saga & Arc',
+  description = 'Timeline tương tác toàn bộ các saga và arc One Piece theo thứ tự với số chương và tóm tắt.',
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <title>{title}</title>
+
+  <!-- Preconnect fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Three.js for World Map (lazy — only used when map view opened) -->
+  <script is:inline src="https://unpkg.com/three@0.128.0/build/three.min.js" defer></script>
+  <script is:inline src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js" defer></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/variables.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/timeline.css" />
+  <link rel="stylesheet" href="/css/cards.css" />
+  <link rel="stylesheet" href="/css/animations.css" />
+  <link rel="stylesheet" href="/css/nav-map.css" />
+</head>
+<body>
+
+  <!-- Scroll progress bar -->
+  <div id="progress-bar" class="timeline-progress" role="progressbar" aria-label="Scroll progress" style="z-index:99"></div>
+
+  <!-- Fixed navigation -->
+  <nav class="site-nav" aria-label="Saga navigation">
+    <div class="nav-inner">
+      <span class="nav-logo">
+        <img src="/images/straw-hat-crew.svg" alt="ONE PIECE" class="nav-logo-img" />
+      </span>
+
+      <div class="search-wrapper">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input
+          type="search"
+          id="arc-search"
+          placeholder="Tìm arc..."
+          data-i18n="search-placeholder"
+          aria-label="Tìm kiếm arc"
+          autocomplete="off"
+          spellcheck="false"
+        />
+      </div>
+
+      <div class="saga-nav-scroll" id="saga-nav-area">
+        <ul id="saga-nav-list" role="list" aria-label="Chuyển tới saga"></ul>
+      </div>
+
+      <div class="view-toggle" role="group" aria-label="Chế độ xem">
+        <button class="view-btn" id="btn-view-timeline" aria-pressed="true">
+          <span>📜</span><span data-i18n="btn-timeline">Timeline</span>
+        </button>
+        <button class="view-btn" id="btn-view-map" aria-pressed="false">
+          <span>🗺</span><span data-i18n="btn-worldmap">World Map</span>
+        </button>
+      </div>
+
+      <!-- Language toggle -->
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button class="lang-btn is-active" data-lang="vi">VI</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page content slot -->
+  <slot />
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>
+      <strong>ONE PIECE TIMELINE &amp; WORLD MAP</strong><br />
+      <span data-i18n="footer-tagline">Fan-made interactive guide · Không liên kết chính thức với Eiichiro Oda hay Shueisha</span>
+    </p>
+    <p style="margin-top:8px; font-size:0.75rem; opacity:0.7;">
+      <span data-i18n="footer-data-label">📖 Dữ liệu arc &amp; chapter:</span>
+      <a href="https://onepiece.fandom.com/wiki/Story_Arcs" target="_blank" rel="noopener" style="color:var(--op-sand);text-decoration:underline">One Piece Wiki (Fandom)</a>
+      ·
+      <a href="https://www.viz.com/one-piece" target="_blank" rel="noopener" style="color:var(--op-sand);text-decoration:underline">VIZ Media (Official)</a>
+      <br />
+      <span data-i18n="footer-geo-label">🗺 Địa lý thế giới:</span>
+      <a href="https://onepiece.fandom.com/wiki/Grand_Line" target="_blank" rel="noopener" style="color:var(--op-sand);text-decoration:underline">Grand Line Wiki</a>
+      ·
+      <a href="https://onepiece.fandom.com/wiki/Map" target="_blank" rel="noopener" style="color:var(--op-sand);text-decoration:underline">Map Wiki</a>
+      <span data-i18n="footer-coord-note">· Tọa độ là ước lượng dựa trên topology thế giới One Piece</span>
+      <br />
+      🌐 3D Globe: <a href="https://threejs.org" target="_blank" rel="noopener" style="color:var(--op-sand);text-decoration:underline">Three.js</a>
+    </p>
+    <p style="margin-top:8px; font-size:0.72rem; opacity:0.5;">
+      <span data-i18n="footer-hint">Double-click saga nav để lọc · Escape để xóa tìm kiếm · Click marker trên map để xem arc</span>
+    </p>
+  </footer>
+
+  <!-- Back to top -->
+  <button id="back-to-top" aria-label="Lên đầu trang">↑</button>
+
+  <!-- Client-side scripts (vanilla JS, served from /public) -->
+  <script is:inline src="/js/data.js"></script>
+  <script is:inline src="/js/render.js"></script>
+  <script is:inline src="/js/navigation.js"></script>
+  <script is:inline src="/js/world-map.js"></script>
+  <script is:inline src="/js/lang-switcher.js"></script>
+
+</body>
+</html>
