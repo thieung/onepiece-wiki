@@ -1,0 +1,51 @@
+---
+export interface Props {
+  title?: string;
+}
+
+const { title = 'ONE PIECE — World Map' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Three.js -->
+  <script is:inline src="https://unpkg.com/three@0.128.0/build/three.min.js" defer></script>
+  <script is:inline src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js" defer></script>
+
+  <link rel="stylesheet" href="/css/variables.css" />
+  <link rel="stylesheet" href="/css/nav-map.css" />
+</head>
+<body class="map-active">
+
+  <nav class="site-nav" aria-label="Map navigation">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo nav-back-link" aria-label="Quay lại Timeline">
+        <img src="/images/straw-hat-crew.svg" alt="ONE PIECE" class="nav-logo-img" />
+        <span class="nav-back-label">← Timeline</span>
+      </a>
+
+      <span class="nav-map-title">🗺 WORLD MAP</span>
+
+      <div class="lang-toggle" role="group" aria-label="Language" style="margin-left:auto">
+        <button class="lang-btn is-active" data-lang="vi">VI</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+    </div>
+  </nav>
+
+  <slot />
+
+  <script is:inline src="/js/data.js"></script>
+  <script is:inline src="/js/world-map.js"></script>
+  <script is:inline src="/js/lang-switcher.js"></script>
+</body>
+</html>
