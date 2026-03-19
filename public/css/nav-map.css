@@ -233,14 +233,6 @@ html { scroll-padding-top: 72px; }
 }
 
 /* === Map view container === */
-#view-map {
-  position: relative;
-  width: 100%;
-  height: calc(100vh - 56px);
-  background: #060d1a;
-  display: flex;
-}
-
 body.map-active { overflow: hidden; }
 
 #map-canvas-wrapper {
@@ -492,6 +484,73 @@ body.map-active { overflow: hidden; }
   border: 1.5px solid rgba(212,160,23,0.3);
   border-radius: 4px;
   overflow: hidden;
+}
+
+/* === Timeline toolbar (sort toggle, above timeline) === */
+.timeline-toolbar {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--space-md) var(--space-md) 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.sort-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 14px;
+  border-radius: 4px;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: #fff;
+  border: 1.5px solid #8B6000;
+  background: #8B6000;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.sort-toggle-btn:hover {
+  background: #6b4a00;
+  border-color: #6b4a00;
+}
+
+/* === Map standalone page === */
+#view-map {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 56px);
+  margin-top: 56px;
+  background: #060d1a;
+  display: flex;
+}
+
+/* === Nav back link (map page) === */
+.nav-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.nav-back-label {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.6);
+  transition: color var(--transition-fast);
+}
+
+.nav-back-link:hover .nav-back-label { color: var(--op-yellow); }
+
+.nav-map-title {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  color: var(--op-yellow);
 }
 
 .lang-btn {

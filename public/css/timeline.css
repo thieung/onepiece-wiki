@@ -6,7 +6,7 @@
 /* === Wrapper: parchment section === */
 .timeline-wrapper {
   position: relative;
-  padding: var(--space-2xl) var(--space-md);
+  padding: var(--space-md) var(--space-md) var(--space-2xl);
   max-width: 900px;
   margin: 0 auto;
 }
