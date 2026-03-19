@@ -583,7 +583,7 @@ function buildInfoPanel() {
     /* Navigate to timeline page and scroll to saga */
     panel.querySelector('#map-go-timeline')?.addEventListener('click', (e) => {
       e.preventDefault();
-      window.location.href = `/${window.location.search}#${sagaData.id}`;
+      window.location.href = `${window.location.origin}/#${sagaData.id}`;
     });
 
     panel.classList.add('is-open');
