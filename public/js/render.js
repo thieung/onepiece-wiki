@@ -97,13 +97,49 @@ function renderSagaSection(saga, globalArcIndex) {
 /**
  * Render the full timeline into the container element
  * @param {HTMLElement} container
+ * @param {boolean} [reversed=false] - if true, show newest sagas/arcs first
  */
-function renderTimeline(container) {
+function renderTimeline(container, reversed = false) {
+  const sagas = reversed ? [...ONE_PIECE_DATA].reverse() : ONE_PIECE_DATA;
+
+  // Compute total arc count for reverse numbering
+  const totalArcs = ONE_PIECE_DATA.reduce((sum, s) => sum + s.arcs.length, 0);
+
   let globalArcIndex = 0;
-  const fragments = ONE_PIECE_DATA.map((saga) => {
-    const result = renderSagaSection(saga, globalArcIndex);
-    globalArcIndex = result.nextIndex;
-    return result.html;
+  const fragments = sagas.map((saga) => {
+    const arcList = reversed ? [...saga.arcs].reverse() : saga.arcs;
+    const arcStartIndex = reversed
+      ? totalArcs - globalArcIndex - arcList.length  // count down
+      : globalArcIndex;
+
+    const arcsHtml = arcList
+      .map((arc, i) => {
+        const arcNum = reversed
+          ? arcStartIndex + arcList.length - i  // descending
+          : arcStartIndex + i + 1;
+        return renderArcCard(arc, arcNum, saga);
+      })
+      .join('');
+
+    const html = `
+      <section class="saga-section" id="${saga.id}" data-saga-id="${saga.id}">
+        <header class="saga-header">
+          <div class="saga-badge reveal"
+               style="background: ${saga.color}; color: ${saga.textColor}; border-color: #111;">
+            <span class="saga-emoji" aria-hidden="true">${saga.emoji}</span>
+            <span class="saga-name">${saga.name}</span>
+            <span class="saga-chapters-label">Chapters ${saga.chapters}</span>
+          </div>
+        </header>
+        <p class="saga-description">${t(saga.description)}</p>
+        <ol class="arc-list" aria-label="Arcs in ${saga.name}">
+          ${arcsHtml}
+        </ol>
+      </section>
+    `;
+
+    globalArcIndex += arcList.length;
+    return html;
   });
 
   container.innerHTML = fragments.join('');

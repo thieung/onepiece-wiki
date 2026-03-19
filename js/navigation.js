@@ -182,28 +182,58 @@ function initBackToTop() {
   });
 }
 
-/* === Toggle saga nav visibility when switching views === */
-function syncNavForView(isMapView) {
-  const sagaNavArea  = document.getElementById('saga-nav-area');
-  const searchBox    = document.querySelector('.search-wrapper');
-  const progressBar  = document.getElementById('progress-bar');
-  const hero         = document.querySelector('.hero');
+/* === Sort order toggle (oldest→newest / newest→oldest) === */
+const SORT_KEY = 'op_sort';
 
-  if (sagaNavArea)  sagaNavArea.style.display  = isMapView ? 'none' : '';
-  if (searchBox)    searchBox.style.display     = isMapView ? 'none' : '';
-  if (progressBar)  progressBar.style.display   = isMapView ? 'none' : '';
-  if (hero)         hero.style.display          = isMapView ? 'none' : '';
+function getCurrentSort() {
+  return localStorage.getItem(SORT_KEY) || 'asc';
 }
 
-/* Expose for world-map.js to call */
-window.syncNavForView = syncNavForView;
+function reRenderTimeline() {
+  const container = document.getElementById('timeline-container');
+  const navList   = document.getElementById('saga-nav-list');
+  const reversed  = getCurrentSort() === 'desc';
+
+  if (container) renderTimeline(container, reversed);
+  if (navList)   renderSagaNav(navList);
+
+  // Re-init DOM-dependent interactions after re-render
+  initRevealAnimations();
+  initActiveNavHighlight();
+  initSagaNavScroll();
+  initSagaFilter();
+}
+
+function initSortToggle() {
+  const btn = document.getElementById('btn-sort-order');
+  if (!btn) return;
+
+  function updateBtn(sort) {
+    const icon  = btn.querySelector('.sort-icon');
+    const label = btn.querySelector('.sort-label');
+    if (icon)  icon.textContent  = sort === 'desc' ? '⬇' : '⬆';
+    if (label) label.textContent = sort === 'desc' ? 'Mới → Cũ' : 'Cũ → Mới';
+    btn.classList.toggle('is-desc', sort === 'desc');
+    btn.title = sort === 'desc' ? 'Đang hiển thị mới nhất trước' : 'Đang hiển thị cũ nhất trước';
+  }
+
+  updateBtn(getCurrentSort());
+
+  btn.addEventListener('click', () => {
+    const next = getCurrentSort() === 'asc' ? 'desc' : 'asc';
+    localStorage.setItem(SORT_KEY, next);
+    updateBtn(next);
+    reRenderTimeline();
+  });
+}
 
 /* === Boot all modules === */
 function init() {
   const container = document.getElementById('timeline-container');
   const navList = document.getElementById('saga-nav-list');
+  const reversed = getCurrentSort() === 'desc';
 
-  if (container) renderTimeline(container);
+  if (container) renderTimeline(container, reversed);
   if (navList) renderSagaNav(navList);
 
   // Init interactions after DOM is built
@@ -214,6 +244,7 @@ function init() {
   initSearch();
   initSagaFilter();
   initBackToTop();
+  initSortToggle();
 }
 
 document.addEventListener('DOMContentLoaded', init);

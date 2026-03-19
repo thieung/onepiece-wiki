@@ -557,6 +557,10 @@ function buildInfoPanel() {
 
     if (!sagaData || !arcData) { panel.classList.remove('is-open'); return; }
 
+    const lang = localStorage.getItem('op_lang') || 'vi';
+    const summary   = typeof arcData.summary   === 'object' ? (arcData.summary[lang]   ?? arcData.summary.vi)   : arcData.summary;
+    const highlight = typeof arcData.highlight === 'object' ? (arcData.highlight[lang] ?? arcData.highlight.vi) : arcData.highlight;
+
     panel.innerHTML = `
       <div class="map-panel-header" style="--panel-color: ${sagaData.color}">
         <span class="map-panel-icon">${loc.icon}</span>
@@ -567,9 +571,9 @@ function buildInfoPanel() {
       </div>
       <div class="map-panel-arc-name">${arcData.name} Arc</div>
       <div class="map-panel-chapters">Ch. ${arcData.chapters}</div>
-      <p class="map-panel-desc">${arcData.summary}</p>
+      <p class="map-panel-desc">${summary}</p>
       <div class="map-panel-highlight">
-        <span>⚓</span> ${arcData.highlight}
+        <span>⚓</span> ${highlight}
       </div>
       <a href="#${sagaData.id}" class="map-panel-link" id="map-go-timeline">
         📜 Xem trong Timeline
@@ -812,4 +816,11 @@ function initViewToggle() {
   showTimeline();
 }
 
-document.addEventListener('DOMContentLoaded', initViewToggle);
+document.addEventListener('DOMContentLoaded', () => {
+  /* Standalone map page: no view-toggle buttons — init directly */
+  if (!document.getElementById('btn-view-map')) {
+    if (document.getElementById('map-canvas-wrapper')) initWorldMap();
+    return;
+  }
+  initViewToggle();
+});
