@@ -394,6 +394,7 @@ body.map-active { overflow: hidden; }
 
 .map-panel-link {
   display: block;
+  width: 100%;
   text-align: center;
   background: rgba(212,160,23,0.15);
   border: 1.5px solid rgba(212,160,23,0.4);

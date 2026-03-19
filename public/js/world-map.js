@@ -535,6 +535,9 @@ function createMarkers(scene) {
 function buildInfoPanel() {
   const panel = document.getElementById('map-info-panel');
 
+  /* Prevent panel clicks from propagating to the canvas behind */
+  panel.addEventListener('click', (e) => e.stopPropagation());
+
   /**
    * Show location info in side panel.
    * @param {Object} loc - location from WORLD_LOCATIONS
@@ -545,12 +548,14 @@ function buildInfoPanel() {
 
     if (loc.landmark) {
       panel.innerHTML = `
+        <button id="map-panel-close" aria-label="Đóng">✕</button>
         <div class="map-panel-header" style="--panel-color: #B7950B">
           <span class="map-panel-icon">${loc.icon}</span>
           <span class="map-panel-name">${loc.name}</span>
         </div>
         <p class="map-panel-desc">Thánh địa của Chính phủ Thế giới — nơi 20 vương quốc thành lập 800 năm trước.</p>
       `;
+      panel.querySelector('#map-panel-close').addEventListener('click', () => hide());
       panel.classList.add('is-open');
       return;
     }
@@ -562,6 +567,7 @@ function buildInfoPanel() {
     const highlight = typeof arcData.highlight === 'object' ? (arcData.highlight[lang] ?? arcData.highlight.vi) : arcData.highlight;
 
     panel.innerHTML = `
+      <button id="map-panel-close" aria-label="Đóng">✕</button>
       <div class="map-panel-header" style="--panel-color: ${sagaData.color}">
         <span class="map-panel-icon">${loc.icon}</span>
         <div>
@@ -575,22 +581,19 @@ function buildInfoPanel() {
       <div class="map-panel-highlight">
         <span>⚓</span> ${highlight}
       </div>
-      <a href="#${sagaData.id}" class="map-panel-link" id="map-go-timeline">
+      <button class="map-panel-link" id="map-go-timeline" type="button">
         📜 Xem trong Timeline
-      </a>
+      </button>
     `;
 
-    /* Switch to timeline view and scroll to saga */
-    panel.querySelector('#map-go-timeline')?.addEventListener('click', (e) => {
-      e.preventDefault();
-      document.getElementById('btn-view-timeline')?.click();
-      setTimeout(() => {
-        const target = document.getElementById(sagaData.id);
-        if (target) {
-          const top = target.getBoundingClientRect().top + window.scrollY - 80;
-          window.scrollTo({ top, behavior: 'smooth' });
-        }
-      }, 120);
+    /* Navigate to timeline page and scroll to saga */
+    panel.querySelector('#map-go-timeline')?.addEventListener('click', () => {
+      window.location.assign(`${window.location.origin}/#${sagaData.id}`);
+    });
+
+    /* Re-bind close button after innerHTML replacement */
+    panel.querySelector('#map-panel-close')?.addEventListener('click', () => {
+      hide();
     });
 
     panel.classList.add('is-open');
@@ -705,6 +708,8 @@ function initWorldMap() {
   });
 
   renderer.domElement.addEventListener('click', (e) => {
+    /* Ignore clicks that originated from the info panel overlay */
+    if (e.target.closest('#map-info-panel')) return;
     raycaster.setFromCamera(mouse, camera);
     const hits = raycaster.intersectObjects(markerTargets);
     if (hits.length > 0) {
@@ -725,12 +730,6 @@ function initWorldMap() {
     marker.scale.setScalar(1);
     renderer.domElement.style.cursor = 'grab';
   }
-
-  /* Close info panel button */
-  document.getElementById('map-panel-close')?.addEventListener('click', () => {
-    infoPanel.hide();
-    controls.autoRotate = true;
-  });
 
   /* Auto-rotate toggle button */
   const rotBtn = document.getElementById('map-toggle-rotate');
