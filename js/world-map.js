@@ -580,17 +580,10 @@ function buildInfoPanel() {
       </a>
     `;
 
-    /* Switch to timeline view and scroll to saga */
+    /* Navigate to timeline page and scroll to saga */
     panel.querySelector('#map-go-timeline')?.addEventListener('click', (e) => {
       e.preventDefault();
-      document.getElementById('btn-view-timeline')?.click();
-      setTimeout(() => {
-        const target = document.getElementById(sagaData.id);
-        if (target) {
-          const top = target.getBoundingClientRect().top + window.scrollY - 80;
-          window.scrollTo({ top, behavior: 'smooth' });
-        }
-      }, 120);
+      window.location.href = `/${window.location.search}#${sagaData.id}`;
     });
 
     panel.classList.add('is-open');

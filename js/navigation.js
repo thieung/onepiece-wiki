@@ -245,6 +245,20 @@ function init() {
   initSagaFilter();
   initBackToTop();
   initSortToggle();
+  scrollToHash();
+}
+
+/* Scroll to element matching URL hash (used by map "Xem trong Timeline" link) */
+function scrollToHash() {
+  const hash = window.location.hash?.slice(1);
+  if (!hash) return;
+  requestAnimationFrame(() => {
+    const target = document.getElementById(hash);
+    if (target) {
+      const top = target.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
 }
 
 document.addEventListener('DOMContentLoaded', init);
