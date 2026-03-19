@@ -23,10 +23,6 @@ const {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Three.js for World Map (lazy — only used when map view opened) -->
-  <script is:inline src="https://unpkg.com/three@0.128.0/build/three.min.js" defer></script>
-  <script is:inline src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js" defer></script>
-
   <!-- Styles -->
   <link rel="stylesheet" href="/css/variables.css" />
   <link rel="stylesheet" href="/css/base.css" />
@@ -64,14 +60,10 @@ const {
         <ul id="saga-nav-list" role="list" aria-label="Chuyển tới saga"></ul>
       </div>
 
-      <div class="view-toggle" role="group" aria-label="Chế độ xem">
-        <button class="view-btn" id="btn-view-timeline" aria-pressed="true">
-          <span>📜</span><span data-i18n="btn-timeline">Timeline</span>
-        </button>
-        <button class="view-btn" id="btn-view-map" aria-pressed="false">
-          <span>🗺</span><span data-i18n="btn-worldmap">World Map</span>
-        </button>
-      </div>
+      <!-- World Map link -->
+      <a href="/map" class="view-btn" style="text-decoration:none">
+        <span>🗺</span><span data-i18n="btn-worldmap">World Map</span>
+      </a>
 
       <!-- Language toggle -->
       <div class="lang-toggle" role="group" aria-label="Language">
@@ -116,7 +108,6 @@ const {
   <script is:inline src="/js/data.js"></script>
   <script is:inline src="/js/render.js"></script>
   <script is:inline src="/js/navigation.js"></script>
-  <script is:inline src="/js/world-map.js"></script>
   <script is:inline src="/js/lang-switcher.js"></script>
 
 </body>
